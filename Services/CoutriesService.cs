@@ -25,7 +25,7 @@ namespace ApiCountries.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Country> Get(int id)
+        public async Task<Country> GetByID(int id)
         {
             Country country = await _context.Countries.FirstOrDefaultAsync(e => e.ID == id);
             return country;
@@ -35,6 +35,12 @@ namespace ApiCountries.Services
         {
             IEnumerable<Country> countries = await _context.Countries.ToListAsync();
             return countries;
+        }
+
+        public async Task<Country> GetByName(string name)
+        {
+            Country country = await _context.Countries.FirstOrDefaultAsync(e => e.Name == name);
+            return country;
         }
 
         public async Task<Country> Post(Country o)

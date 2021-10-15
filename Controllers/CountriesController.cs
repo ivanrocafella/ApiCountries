@@ -27,12 +27,23 @@ namespace ApiCountries.Controllers
             return countries.ToList();
         }
 
-        // GET api/users/get/5
+        // GET api/users/getbyid/5
         [HttpGet]
-        [Route("get/{id}")]
-        public async Task<ActionResult<Country>> Get(int id)
+        [Route("getbyid/{id}")]
+        public async Task<ActionResult<Country>> GetByID(int id)
         {
-            Country country = await service.Get(id);
+            Country country = await service.GetByID(id);
+            if (country == null)
+                return NotFound();
+            return new ObjectResult(country);
+        }
+
+        // GET api/users/getbyname/Tunisia
+        [HttpGet]
+        [Route("getbyname/{name}")]
+        public async Task<ActionResult<Country>> GetByName(string name)
+        {
+            Country country = await service.GetByName(name);
             if (country == null)
                 return NotFound();
             return new ObjectResult(country);
@@ -65,7 +76,7 @@ namespace ApiCountries.Controllers
         [Route("delete/{id}")]
         public async Task<ActionResult<Country>> Delete(int id)
         {
-            Country country = await service.Get(id);
+            Country country = await service.GetByID(id);
             if (country == null)
                 return NotFound();
             await service.Delete(country);
